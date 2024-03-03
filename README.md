@@ -24,7 +24,7 @@
 - DHT-11
 
 ### 매핑 영상
-[![Video Label](http://img.youtube.com/vi/Hx1nfyjPrWv9hiWF/0.jpg)]([https://youtu.be/uLR1RNqJ1Mw?t=0s](https://youtu.be/Hx1nfyjPrWv9hiWF))
+[![CareBuddy Mapping](https://img.youtube.com/vi/Hx1nfyjPrWv9hiWF/0.jpg)](https://www.youtube.com/watch?v=Hx1nfyjPrWv9hiWF)
 
 ### 실행 순서
 // 우분투
