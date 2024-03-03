@@ -13,6 +13,7 @@
 - Ubuntu 20.04
 - Raspbian Buster
 - RoS Noetic(Ubuntu), Melodic(Raspberry pi)
+- MySQL
 - Python 2.7.16
 - nodejs 20.11.1
 
@@ -20,9 +21,10 @@
 - Raspberry pi 4B 4GB/8GB
 - YDLiDAR X4
 - RPLiDAR A1M8
+- DHT-11
 
 ### 매핑 영상
-<iframe width="718" height="404" src="https://www.youtube.com/embed/ebhQJ1M6wfo" title="CareBuddy Mapping" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Video Label](http://img.youtube.com/vi/Hx1nfyjPrWv9hiWF/0.jpg)]([https://youtu.be/uLR1RNqJ1Mw?t=0s](https://youtu.be/Hx1nfyjPrWv9hiWF))
 
 ### 실행 순서
 // 우분투
