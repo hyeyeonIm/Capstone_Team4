@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8" />
 
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CareBuddy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
@@ -25,16 +27,67 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="css.css">
+<link rel="stylesheet" href="styles.css">
 
 
 
 
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <div class="container">
+            <a class="navbar-brand" href="info.html">
+                <img src="/icons/info_icon.png" alt="" width="30" height="24">
+            </a>
+            <a class="navbar-brand" href="index.html">
+                CareBuddy
+            </a>
+            <a class="navbar-brand" href="status.html">
+                <img src="/icons/buddy_icon.png" alt="" width="30" height="24">
+            </a>
+        </div>
+    </nav>
+    
+    <!-- The welcome message and button will be shown if no settings are set -->
+    <div id="welcomeSection">
+        <h1>Welcome to CareBuddy!</h1>
+        <h5>Connection status: <span id="status"></span></h5>
+        <div class="myButton">
+            <button class="button button1" onclick="location.href= 'setting.html';">시작하기</button>
+        </div>
+    </div>
+
+    <!-- The grid will be shown if settings are set -->
+    <div id="settingsSection" style="display: none;">
+        <h4 id="greeting"></h4>
+        <h4 id="AirFre" class="airfrequency"></h4>
+        <div class="con">
+          <div class="box">
+            <p>공간별 케어도</p>
+          </div>
   
-<h1>Simple ROS User Interface</h1>
-<p>Connection status: <span id="status"></span></p>
-<p>Map <span id="msg"></span></p>
+          <div class="box">
+            <p>현재 케어 공간</p>
+          </div>
+  
+          <div class="box">
+            <p>다음 케어 공간</p>
+          </div>
+    
+        <div class="large-box">
+            <p>Map status<span id="msg"></span></p>
+            <div id="map"></div>
+            <button class="Start_Map">매핑 시작</button>
+            <button class="Stop_Map">매핑 종료</button>
+        </div>
+        </div>
+      </div>
+
+      <br><br>
+      <button class="SetAgain" onclick="resetLocalStorage()">리셋</button>
+      <button class="SetAgain" onclick="location.href= 'setting.html';">다시 설정</button>
 
 <!-- <div class="container-fluid">
     <div class="row-fluid">
@@ -51,10 +104,9 @@
 
 <div id="zone_joystick" style="width:200px; height: 200px; display: flex; justify-content: center; align-items: center;"></div> -->
 
-<div id="map" style="width: 800px; height: 600px;"></div>
+
 <div id="nav"></div>
 <div id="alerts"></div>
-
 <!-- <div class="joystick-container">
     <div id="joystick"></div>
 </div> -->
@@ -74,6 +126,51 @@
 <!-- 
 <p style="color:green">X:<span id="x"></span></p>
 <p style="color:blue">Y:<span id="y"></span></p> -->
+<footer>
+    © Moutus+er
+</footer>
+
+<script>
+    function resetLocalStorage() {
+            // Clear all local storage
+            localStorage.clear();
+            // Reload the page
+            location.href = 'index.html'; 
+        }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var deviceName = localStorage.getItem("deviceName");
+        
+        if (deviceName) {
+            // Hide the welcome section and show the settings section
+            document.getElementById('welcomeSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'block';
+            // Update the greeting with the deviceName
+            document.getElementById('greeting').textContent = "Hello, " + deviceName;
+        } else {
+            // Keep the welcome section visible if no deviceName is stored
+            document.getElementById('welcomeSection').style.display = 'block';
+            document.getElementById('settingsSection').style.display = 'none';
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var filterChangeFrequency = localStorage.getItem("filterChangeFrequency");
+        
+        if (filterChangeFrequency) {
+            // Hide the welcome section and show the settings section
+            document.getElementById('welcomeSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'block';
+            // Update the greeting with the deviceName
+            document.getElementById('AirFre').textContent = "필터 교체 까지 : " + filterChangeFrequency;
+        } else {
+            // Keep the welcome section visible if no deviceName is stored
+            document.getElementById('welcomeSection').style.display = 'block';
+            document.getElementById('settingsSection').style.display = 'none';
+        }
+    });
+</script>
+
 <script type="text/javascript" src="roslisb.js"></script>
 
 </body>
