@@ -1,13 +1,17 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CareBuddy</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" , href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CareBuddy</title>
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <!-- jQuery (Bootstrap 5는 jQuery에 의존하지 않음, 필요에 따라 추가) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -26,80 +30,397 @@
     </nav>
 
     <h4>설정</h4>
-
-    <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-
     <div class="grid-container">
+
+        <!-- 케어버디 명칭 변경 -->
         <div class="grid-item">
             <img src="./icons/buddy_icon.png" alt="아이콘" width="30" height="30">
-            <h5 class="info_name">케어버디 명칭 변경</h5>
-            <h6 class="info_detail">기기 명칭 변경</h6>     
+            <h6 class="info_detail" id="changeDeviceName">케어버디 명칭 변경<br/>기기 명칭 변경</h6>
         </div>
-        <div class="grid-item">
-            <img src="./icons/buddy_icon.png" alt="아이콘" width="30" height="30">
-            <h5 class="info_name">날씨</h5>
-            <h6 class="info_detail">맑음</h6>
+
+        <!-- 모달 추가 -->
+        <div class="modal fade" id="deviceNameModal" tabindex="-1" aria-labelledby="deviceNameModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deviceNameModalLabel">기기 명칭 변경</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="newDeviceName" class="form-control" placeholder="새 기기 명칭 입력">
+                    </div>
+                    <div class="modal-footer">
+                        <!-- data-bs-dismiss="modal" 추가 -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary" onclick="saveNewDeviceName()">저장</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="grid-item">
+
+        <!-- 방해 금지 모드 -->
+        <div class="grid-item d-flex align-items-center">
             <img src="./icons/disturb.png" alt="아이콘" width="30" height="30">
-            <label class="form-check-label" for="flexSwitchCheckDefault">방해 금지 모드</label>
+            <h5>방해 금지 모드</h5>
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
             </div>
         </div>
+        
+
     </div>
 
     <div class="grid-container">
-        <div class="grid-item">
-            <img src="./icons/wifi.png" alt="아이콘" width="30" height="30"> <br/>
-            <h5 class="info_name">와이파이 설정</h5>
-            <h6 class="info_detail">와이파이 연결</h6>
-        </div>
+
+        <!-- 공간 설정 -->
         <div class="grid-item">
             <img src="./icons/map.png" alt="아이콘" width="30" height="30"> <br/>
             <h5 class="info_name">공간 설정</h5>
-            <h6 class="info_detail">공간 이름 변경, 방해금지 시간 설정금지 구역 지정, 청정 기준 설정</h6>
+            <h6 class="info_detail">공간 이름 변경</h6>
+            <h6 class="info_detail">방해금지 시간 설정금지 구역 지정</h6>
+            <h6 class="info_detail">청정 기준 설정</h6>
         </div>
-        <div class="grid-item">
-            <img src="./icons/air.png" alt="아이콘" width="30" height="30"> <br/>
-            <h5 class="info_name">환기 설정</h5>
-            <h6 class="info_detail">환기 횟수 설정</h6>
-            <label class="form-check-label" for="flexSwitchCheckDefault">알림 음성</label>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+
+        <!-- 환기 설정 -->
+        <div class="grid-item d-flex flex-column align-items-center justify-content-center gap-2">
+            <img src="./icons/air.png" alt="아이콘" width="30" height="30">
+            <h5 class="info_name text-center">환기 설정</h5>
+            <h6 class="info_detail text-center">환기 횟수 설정 (<span id="currentVentilationFrequency"></span>)</h6>
+            
+            <div class="d-flex align-items-center gap-2">
+                <h6 class="mb-0">알림 음성</h6>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
             </div>
         </div>
+        
+
+        <!-- 환기 횟수 설정 모달 -->
+        <div class="modal fade" id="ventilationFrequencyModal" tabindex="-1" aria-labelledby="ventilationFrequencyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ventilationFrequencyModalLabel">환기 횟수 설정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="choice">
+                            <button type="button" class="btn btn-primary circle_btn">1회</button>
+                            <button type="button" class="btn btn-primary circle_btn">2회</button>
+                            <button type="button" class="btn btn-primary circle_btn">3회</button>
+                            <button type="button" class="btn btn-primary circle_btn">4회</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 필터 설정 -->
+        <div class="grid-item d-flex flex-column align-items-center gap-2">
+            <img src="./icons/filter.png" alt="아이콘" width="30" height="30">
+            <h5 class="info_name text-center">필터 설정</h5>
+            <h6 class="info_detail text-center">필터 교체 주기 설정 (<span id="currentFilterChangeFrequency"></span>)</h6>
+            <div class="d-flex align-items-center gap-2">
+                <h6 class="mb-0">알림 음성</h6>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 필터 교체 주기 설정 모달 -->
+        <div class="modal fade" id="filterFrequencyModal" tabindex="-1" aria-labelledby="filterFrequencyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="filterFrequencyModalLabel">필터 교체 주기 설정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="choice">
+                            <button type="button" class="btn btn-primary circle_btn">2주</button>
+                            <button type="button" class="btn btn-primary circle_btn">한 달</button>
+                            <button type="button" class="btn btn-primary circle_btn">두 달</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
 
     <div class="grid-container">
+
+        <!-- 공기 청정 기준 설정 -->
         <div class="grid-item">
-            <img src="./icons/filter.png" alt="아이콘" width="30" height="30"> <br/>
-            <h5 class="info_name">필터 설정</h5>
-            <h6 class="info_detail">필터 교체 주기 설정</h6>
-            <label class="form-check-label" for="flexSwitchCheckDefault">알림 음성</label>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <img src="./icons/buddy_icon.png" alt="아이콘" width="30" height="30"> <br/>
+            <h6 class="info_detail">공기 청정 기준 설정 (<span id="currentAirQualityStandard"></span>)</h6>
+        </div>
+
+        <!-- 공기 청정 기준 모달 -->
+        <div class="modal fade" id="airQualityModal" tabindex="-1" aria-labelledby="airQualityModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="airQualityModalLabel">공기 청정 기준 설정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="choice">
+                            <button type="button" class="btn btn-primary circle_btn">60%</button>
+                            <button type="button" class="btn btn-primary circle_btn">70%</button>
+                            <button type="button" class="btn btn-primary circle_btn">80%</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="grid-item">
-            <img src="./icons/battery_status.png" alt="아이콘" width="30" height="30"> <br/>
-            <h5 class="info_name">배터리 설정</h5>
-            <h6 class="info_detail">배터리 부족 알림 퍼센트 기준 설정</h6>
-            <label class="form-check-label" for="flexSwitchCheckDefault">알림 음성</label>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+
+
+        <!-- 배터리 설정 -->
+        <div class="grid-item d-flex flex-column align-items-center gap-2">
+            <img src="./icons/battery_status.png" alt="아이콘" width="30" height="30">
+            <h5 class="info_name text-center">배터리 설정</h5>
+            <h6 class="info_detail text-center">배터리 부족 알림 퍼센트 기준 설정 (<span id="currentBatteryThreshold"></span>)</h6>
+            <div class="d-flex align-items-center gap-2">
+                <h6 class="mb-0">알림 음성</h6>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
             </div>
         </div>
+
+        <!-- 배터리 설정 모달 -->
+        <div class="modal fade" id="batteryThresholdModal" tabindex="-1" aria-labelledby="batteryThresholdModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="batteryThresholdModalLabel">배터리 부족 알림 퍼센트 기준 설정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="choice">
+                            <button type="button" class="btn btn-primary circle_btn">30%</button>
+                            <button type="button" class="btn btn-primary circle_btn">40%</button>
+                            <button type="button" class="btn btn-primary circle_btn">50%</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 매핑 정보 초기화 -->
         <div class="grid-item">
             <img src="./icons/reset.png" alt="아이콘" width="30" height="30"> <br/>
-            <h5 class="info_name">매핑 정보 초기화</h5>
-            <h6 class="info_detail">전체 초기화</h6>
+            <h5 class="info_name" id="resetTrigger">전체 초기화</h5>
         </div>
+
+
+        <!-- 초기화 확인 모달 -->
+        <div class="modal fade" id="resetConfirmationModal" tabindex="-1" aria-labelledby="resetConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resetConfirmationModalLabel">전체 초기화</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        정말 초기화 하시겠습니까?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                        <button type="button" class="btn btn-primary" onclick="resetLocalStorage()">예</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
     </div>
+
+    <!-- Bootstrap 5 JS Bundle (Popper.js 포함) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // 모달을 표시하는 함수
+        $(document).ready(function(){
+            $("#changeDeviceName").click(function(){
+                $("#deviceNameModal").modal('show');
+            });
+        });
+        
+        // 새로운 기기 명칭을 localStorage에 저장하는 함수
+        function saveNewDeviceName() {
+            var newDeviceName = document.getElementById("newDeviceName").value;
+            localStorage.setItem('deviceName', newDeviceName);
+        
+            // 설정 페이지에서 사용되는 updateCheckPage 함수를 호출해 업데이트 (선택적)
+            if(typeof updateCheckPage === "function") {
+                updateCheckPage();
+            }
+        
+            $("#deviceNameModal").modal('hide');
+        }
+
+        
+        function saveNewDeviceName() {
+            var newDeviceName = document.getElementById("newDeviceName").value.trim(); // 입력값 앞뒤 공백 제거
+
+            // 입력값이 없을 경우 alert 사용
+            if(newDeviceName === "") {
+                alert("변경할 이름을 입력해주세요.");
+                return; // 함수 실행 종료
+            }
+
+            localStorage.setItem('deviceName', newDeviceName);
+
+            // 설정 페이지에서 사용되는 updateCheckPage 함수를 호출해 업데이트 (선택적)
+            if(typeof updateCheckPage === "function") {
+                updateCheckPage();
+            }
+
+            $("#deviceNameModal").modal('hide'); // 모든 검사를 통과하면 모달 닫기
+        }
+
+        $(document).ready(function(){
+            // 페이지 로드 시 현재 설정값을 표시
+            var currentVentilationFrequency = localStorage.getItem('ventilationFrequency') || '설정되지 않음';
+            $('#currentVentilationFrequency').text(currentVentilationFrequency);
+
+            var currentFilterChangeFrequency = localStorage.getItem('filterChangeFrequency') || '설정되지 않음';
+            $('#currentFilterChangeFrequency').text(currentFilterChangeFrequency);
+
+            // "환기 횟수 설정" 클릭 이벤트
+            $('#currentVentilationFrequency').parent().click(function(){
+                $("#ventilationFrequencyModal").modal('show');
+            });
+
+            // "필터 교체 주기 설정" 클릭 이벤트
+            $('#currentFilterChangeFrequency').parent().click(function(){
+                $("#filterFrequencyModal").modal('show');
+            });
+
+            // 환기 횟수 선택 버튼 클릭 이벤트
+            $('#ventilationFrequencyModal .circle_btn').click(function(){
+                var ventilationFrequency = $(this).text();
+                localStorage.setItem('ventilationFrequency', ventilationFrequency);
+
+                // 페이지를 새로고침하여 변경사항 적용
+                location.reload();
+            });
+
+            // 필터 교체 주기 선택 버튼 클릭 이벤트
+            $('#filterFrequencyModal .circle_btn').click(function(){
+                var filterChangeFrequency = $(this).text();
+                localStorage.setItem('filterChangeFrequency', filterChangeFrequency);
+
+                // 페이지를 새로고침하여 변경사항 적용
+                location.reload();
+            });
+
+            // 페이지 로드 시 현재 공기 청정 기준을 표시
+            var currentAirQualityStandard = localStorage.getItem('airQualityStandard') || '설정되지 않음';
+            $('#currentAirQualityStandard').text(currentAirQualityStandard);
+
+            // "공기 청정 기준 설정" 클릭 이벤트
+            $(".info_detail").click(function(){
+                if($(this).text().includes("공기 청정 기준 설정")) {
+                    $("#airQualityModal").modal('show');
+                }
+            });
+
+            // 공기 청정 기준 선택 버튼 클릭 이벤트
+            $('#airQualityModal .circle_btn').click(function(){
+                var airQualityStandard = $(this).text();
+                localStorage.setItem('airQualityStandard', airQualityStandard);
+
+                // 페이지를 새로고침하여 변경사항 적용
+                location.reload();
+            });
+
+            // 페이지 로드 시 현재 배터리 부족 알림 퍼센트 기준을 표시
+            var currentBatteryThreshold = localStorage.getItem('batteryThreshold') || '설정되지 않음';
+            $('#currentBatteryThreshold').text(currentBatteryThreshold);
+
+            // "배터리 부족 알림 퍼센트 기준 설정" 클릭 이벤트
+            $(".info_detail").click(function(){
+                if($(this).text().includes("배터리 부족 알림 퍼센트 기준 설정")) {
+                    $("#batteryThresholdModal").modal('show');
+                }
+            });
+
+            // 배터리 설정 선택 버튼 클릭 이벤트
+            $('#batteryThresholdModal .circle_btn').click(function(){
+                var batteryThreshold = $(this).text();
+                localStorage.setItem('batteryThreshold', batteryThreshold);
+
+                // 페이지를 새로고침하여 변경사항 적용
+                location.reload();
+            });
+
+                        // "전체 초기화" 클릭 이벤트
+                        $("#resetTrigger").click(function(){
+                $("#resetConfirmationModal").modal('show');
+            });
+        });
+
+
+        function resetLocalStorage() {
+            // Clear all local storage
+            localStorage.clear();
+            // 모달 닫기
+            $('#resetConfirmationModal').modal('hide');
+            // 페이지 리로드
+            location.href = 'index.html'; 
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 현재 설정된 환기 횟수를 가져옵니다.
+            var currentVentilationFrequency = localStorage.getItem('ventilationFrequency') || '0회';
+            document.getElementById('currentVentilationFrequency').textContent = currentVentilationFrequency;
+
+            // 알림 음성 체크박스의 상태를 확인하고, 변경 시 이벤트 핸들러를 설정합니다.
+            var audioNotificationSwitch = document.getElementById('flexSwitchCheckDefault');
+            audioNotificationSwitch.addEventListener('change', function() {
+                if (this.checked) {
+                    // 체크박스가 선택되면, 설정된 횟수만큼 알림을 예약합니다.
+                    // "1회", "2회" 등의 문자열에서 숫자만 추출하여 정수로 변환합니다.
+                    var frequency = parseInt(currentVentilationFrequency.match(/\d+/)[0]);
+                    scheduleAudioNotifications(frequency);
+                } else {
+                    // 체크박스 선택 해제 시, 예약된 알림을 취소합니다.
+                    console.log("알림 예약이 취소되었습니다.");
+                }
+            });
+        });
+
+        function scheduleAudioNotifications(frequency) {
+            // 하루를 밀리초로 계산합니다. (24시간 * 60분 * 60초 * 1000밀리초)
+            var dayInMilliseconds = 86400000;
+            // 하루 동안 알림을 울릴 간격을 계산합니다.
+            var notificationInterval = dayInMilliseconds / frequency;
+
+            for (let i = 0; i < frequency; i++) {
+                setTimeout(function() {
+                    console.log("환기 알림: " + (i + 1) + "회째 알림");
+                    // 여기서 실제로 사용자에게 알림을 주는 로직을 구현합니다. (예: 오디오 재생)
+                    // 예를 들어, Audio 객체를 생성하고 재생할 수 있습니다.
+                    // new Audio('path/to/your/audio/file.mp3').play();
+                }, notificationInterval * i);
+            }
+        }
+
+
+    </script>
+        
+
+
 
     <footer>
     © Moutus+er
