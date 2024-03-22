@@ -117,6 +117,10 @@ body {
     margin-bottom: 3px;
 }
 
+.grid-item-double {
+  grid-column: span 2; /* 이 아이템이 2칸을 차지하도록 설정 */
+}
+
 
 .d-flex.align-items-center {
   gap: 10px; /* 원하는 간격으로 조정 */
