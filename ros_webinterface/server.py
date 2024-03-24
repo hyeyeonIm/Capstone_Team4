@@ -36,13 +36,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def stop_and_save(self, map_name):
         map_name = unquote(map_name)  # URL 인코딩된 맵 이름을 디코드
         try:
-            # 맵 저장 - subprocess.run 사용
+            # 맵 저장 : subprocess.run 사용
             save_cmd = ['rosrun', 'map_server', 'map_saver', '-f', f'/home/haley/catkin_ws/saveMap/{map_name}']
-            subprocess.run(save_cmd, check=True)  # 이 명령이 완료될 때까지 기다립니다.
+            subprocess.run(save_cmd, check=True)  # 명령어 완료까지 대기
             response = f"Map saved as {map_name}."
 
-            # hector_slam 종료
+            # hector_slam 튜토리얼 먼저 종료
             subprocess.call(['pkill', '-f', 'roslaunch hector_slam_launch tutorial.launch'])
+            # 지도가 저장되었으므로 hector_slam 관련 모든 명령어 종료
             subprocess.call(['kill' '-f' 'hector_slam_launch'])
 
         except FileNotFoundError as e:
@@ -61,6 +62,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         map_path = f"/home/haley/catkin_ws/saveMap/{map_name}"
         try:
             print(f"Loading map: {map_path}")
+            # 지도 불러오는 ros 명령어
             subprocess.Popen(['rosrun', 'map_server', 'map_server', f'{map_path}.yaml'])
             response = "Map loaded successfully."
         except Exception as e:
