@@ -15,6 +15,7 @@
 - RoS Noetic(Ubuntu), Melodic(Raspberry pi)
 - MySQL
 - Python 2.7.16
+- Python 3.8.10
 - nodejs 20.11.1
 
 ### 하드웨어
