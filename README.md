@@ -14,8 +14,8 @@
 - Raspbian Buster
 - RoS Noetic(Ubuntu), Melodic(Raspberry pi)
 - MySQL
-- Python 2.7.16
-- Python 3.8.10
+- Python 2.7.16(Raspberry pi)
+- Python 3.8.10(Ubuntu)
 - nodejs 20.11.1
 
 ### 하드웨어
