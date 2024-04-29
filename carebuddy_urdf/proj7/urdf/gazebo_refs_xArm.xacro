@@ -1,0 +1,28 @@
+<robot name="proj7" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<xacro:macro name="Colors" params="wheel ">
+    <gazebo reference="${wheel}">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+</xacro:macro>
+
+<xacro:Colors wheel="wheel1"/>
+<xacro:Colors wheel="wheel2"/>
+<xacro:Colors wheel="wheel3"/>
+<xacro:Colors wheel="wheel4"/>
+
+
+
+<gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/</robotNamespace>
+    </plugin>
+</gazebo>
+<gazebo reference="base_link">
+    <material>Gazebo/Orange</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+
+
+</robot>

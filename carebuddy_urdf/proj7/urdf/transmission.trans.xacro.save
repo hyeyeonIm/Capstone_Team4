@@ -1,0 +1,52 @@
+
+<robot name="proj7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<!-- Joints -->
+<xacro:macro name="Transmission_Block" params="prefix suffix">
+    
+    
+    
+    
+    <!-- Wheels -->
+<transmission name="${prefix}_${suffix}_wheel_trans">
+   <type>transmission_interface/SimpleTransmission</type>
+   <actuator name="${prefix}_motor">
+   	<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+   	<mechanicalReduction>1</mechanicalReduction>
+   </actuator>
+   <joint name="${prefix}_joint">
+   	<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+   </joint>
+  </transmission>
+</xacro:macro>
+
+
+
+
+<xacro:macro name="arm_transmission" params="pre ">
+    <transmission name="${pre}_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+   <actuator name=${pre}_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+   </actuator>
+    <joint name="${pre}_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    </transmission>
+</xacro:macro>
+
+
+<!--Link joint initialisation-->
+<xacro:Transmission_Block prefix="fl" suffix="frontLeft"/>
+<xacro:Transmission_Block prefix="fr" suffix="frontRight"/>
+<xacro:Transmission_Block prefix="rl" suffix="rightLeft"/>
+<xacro:Transmission_Block prefix="rr" suffix="rightRight"/>
+
+<!--Arm joints initialisation-->
+<xacro:arm_transmission pre="armbase" />
+<xacro:arm_transmission pre="link1" />
+<xacro:arm_transmission pre="link2" />
+<xacro:arm_transmission pre="end" />
+
+
+</robot>

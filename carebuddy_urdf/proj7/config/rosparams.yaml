@@ -1,0 +1,5 @@
+gazebo_ros_control/pid_gains:
+  fl_joint: {p: 1.0, i: 0.0, d: 1.0}
+  fr_joint: {p: 1.0, i: 0.0, d: 1.0}
+  rl_joint: {p: 1.0, i: 0.0, d: 1.0}
+  rr_joint: {p: 1.0, i: 0.0, d: 1.0}

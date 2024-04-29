@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>							
+    <param name="robot_description"
+     command="$(find xacro)/xacro '$(find proj7)/urdf/proj7.urdf.xacro'" />
+    
+    <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+     args="-param robot_description -urdf -model my_robot
+     			-x $(arg x) -y $(arg y) -z $(arg z)
+			-R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
+    
+    <rosparam file="$(find proj7)/config/joint_names_proj7.yaml" command="load" ns="/proj7" />
+
+    <node name="joint_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen" />
+
+</launch>

@@ -1,0 +1,30 @@
+<launch>
+<arg name="model" default="$(find proj7)/urdf/proj7.xacro"/>
+<arg name="rvizconfig" default="$(find proj7)/urdf.rviz"/>
+
+<!-- Launch the gazebo -->
+<include file="$(find proj7)/launch/gazebo.launch">
+	
+</include>
+
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
+
+<rosparam file="$(find proj7)/config/joint_states.yaml" command="load"/>
+<rosparam file="$(find proj7)/config/my_config.yaml" command="load"/>
+
+<node name="robot_arm_controller_spawner" pkg="controller_manager" type="spawner"
+	respawn="true" output="screen"
+	args="/Diff_Drive/joint_state_controller
+	      /Diff_Drive/diff_drive_controller
+	      --shutdown-timeout 3" />
+
+
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	respawn="false" output="screen">
+</node>
+
+<node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
+	<param name="default_topic" value="/Diff_Drive/diff_drive_controller/cmd_vel"/>
+</node>
+
+</launch>

@@ -1,0 +1,36 @@
+<launch>
+  <include
+    file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <node
+    name="tf_footprint_base"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0 0 0 0 0 0 base_link base_footprint 40" />
+  <param name="robot_description" command="$(find xacro)/xacro $(find proj7)/urdf/proj7.xacro" />
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model robot" />
+
+
+  <rosparam file="$(find proj7)/config/my_config.yaml" command="load" ns="/proj7" />
+   <!--rosparam file="$(find proj7)/config/rosparams.yaml" command="load"/-->
+
+  <node
+    name="fake_joint_calibration"
+    pkg="rostopic"
+    type="rostopic"
+    args="pub /calibrated std_msgs/Bool true" />
+</launch>
+
+
+
+<!--
+  
+  
+  <node name="controller_Spawner" pkg="controller_manager" type="spawner"
+    respawn="false" output="screen" ns="/proj7"
+        args="wheel_fr_controller
+              wheel_fl_controller
+              wheel_rl_controller
+              wheel_rr_controller" />
+   <remap from="/joint_states" to="proj7/joint_states" />
+    
+  -->
