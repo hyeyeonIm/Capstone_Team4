@@ -6,4 +6,6 @@
 
 3. 라즈베리파이에 my_robot_control 패키지를 만들고  gpio를 제어하는 로직을 포함한 노드 motor_control_node.py를 생성한다 (우분투 컴퓨터로부터 키보드 입력에 해당하는 ros 메시지를 수신하여 gpio 핀 상태를 제어하는 것이다.)
 
+4. robot_controller.py를 실행하면 pwm으로 제어하는 속도 신호가 cmd_vel로 변환된다.
+
 
