@@ -21,12 +21,12 @@ Diff_Drive:
      linear:
        x:
          has_velocity_limits    : true
-         max_velocity           : 1  # m/s
+         max_velocity           : 0.567
          has_acceleration_limits: true
-         max_acceleration       : 3   # m/s^2
+         max_acceleration       : 0.5
      angular:
        z:
          has_velocity_limits    : true
-         max_velocity           : 1   # rad/s
+         max_velocity           : 0.7788
          has_acceleration_limits: true
-         max_acceleration       : 3   # rad/s^2
+         max_acceleration       : 0.5

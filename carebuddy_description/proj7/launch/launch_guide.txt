@@ -1,3 +1,0 @@
-
-custom_launch1.launch for launch gazebo and rviz with out the arm rover model
-

@@ -3,235 +3,192 @@
 
 <xacro:include filename="$(find proj7)/urdf/gazebo_refs_xArm.xacro" />
 <xacro:include filename="$(find proj7)/urdf/transmission_xArm.xacro" />
-
-
 <link name="base_link">
     <inertial>
-    <origin xyz="-0.175408744258912 -2.77555756156289E-17 0.042594978158761" rpy="0 0 0" />
-    <mass value="9.78226897262598" />
-    <inertia
-      ixx="0.0181931920090248"
-      ixy="1.71992336114767E-17"
-      ixz="0.00128593828445336"
-      iyy="0.0390383335985534"
-      iyz="8.99647785357799E-18"
-      izz="0.050050701179235" />
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/base_link.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-    <gazebo>
-    <material name="">
+      <origin xyz="0 0 0.035" rpy="0 0 0"/>
+      <mass value="0.8"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/base_link.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+      <material name="">
       <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
     </material>
-    </gazebo>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/base_link.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-  </collision>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/base_link.STL" scale="0.5 0.5 0.5"/> 
+      </geometry>
+    </collision>
   </link>
-  
- 
 <link name="wheel1">
-  <inertial>
-    <origin xyz="5.75e-12 -0.04 0" rpy="0 0 0" />
-    <mass value="0.7045408980808" />
-    <inertia
-      ixx="0.000284272116578591"
-      ixy="1.86422917224021E-14"
-      ixz="1.61117911193532E-17"
-      iyy="0.000442193881658265"
-      iyz="-7.44333646831485E-15"
-      izz="0.000284272116258617" />
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel1.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-    <material name="">
+    <inertial>
+      <origin xyz="0.065 0.072 0" rpy="0 0 0"/> 
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
+      </geometry>
+      <material name="">
       <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
     </material>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel1.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-  </collision>
-</link>
-<joint name="fr_joint" type="continuous">
-  <origin xyz="-0.05 -0.09 0.0125" rpy="0 0 0" />
-  <parent link="base_link" />
-  <child link="wheel1" />
-  <axis xyz="0 1 0" />
-</joint>
-
-<link name="wheel2">
-  <inertial>
-    <origin xyz="1.59e-11 0.0399489154042788 6.6129879350285E-12" rpy="0 0 0" />
-    <mass value="0.7045408980808" />
-    <inertia
-      ixx="0.000284272116578591"
-      ixy="1.85711370742655E-14"
-      ixz="3.25728910796003E-16"
-      iyy="0.000442193881658265"
-      iyz="-1.90786584778645E-14"
-      izz="0.000284272116258617" />
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel2.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-    <material name="">
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fr_joint" type="continuous">
+    <origin xyz="-0.05 -0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel1"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  
+  <link name="wheel2">
+    <inertial>
+      <origin xyz="0.065 -0.072 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fl_joint" type="continuous">
+    <origin xyz="-0.05 0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel2"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  
+  <link name="wheel3">
+    <inertial>
+      <origin xyz="-0.065 0.072 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+      <material name="">
       <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
     </material>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel2.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-  </collision>
-</link>
-<joint name="fl_joint" type="continuous">
-  <origin xyz="-0.05 0.09 0.0125" rpy="0 0 0" />
-  <parent link="base_link" />
-  <child link="wheel2" />
-  <axis xyz="0 1 0" />
-</joint>
-
-
-<!-- Wheel3 -->
-<link name="wheel3">
-  <inertial>
-    <origin xyz="-1.35443045667927E-11 -0.0399489154042788 -7.7380046814568E-12" rpy="0 0 0" />
-    <mass value="0.7045408980808" />
-    <inertia
-      ixx="0.000284272116578591"
-      ixy="-1.44616633419091E-14"
-      ixz="-2.71848111414753E-17"
-      iyy="0.000442193881658265"
-      iyz="-1.92105557800124E-14"
-      izz="0.000284272116258617" />
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel3.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-    <material name="">
-      <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
-    </material>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel3.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-  </collision>
-</link>
-<joint name="rr_joint" type="continuous">
-  <origin xyz="-0.275 -0.09 0.0125" rpy="0 0 0" />
-  <parent link="base_link" />
-  <child link="wheel3" />
-  <axis xyz="0 1 0" />
-</joint>
-
-
-<!-- Wheel4 -->
-<link name="wheel4">
-  <inertial>
-    <origin xyz="1.92661997466814E-11 0.03994891540427875 -4.57833770894922E-12" rpy="0 0 0" />
-    <mass value="0.7045408980808" />
-    <inertia
-      ixx="0.000284272116578591"
-      ixy="-2.45162226700028E-14"
-      ixz="3.75158494968865E-16"
-      iyy="0.000442193881658265"
-      iyz="1.82107804344173E-14"
-      izz="0.000284272116258617" />
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-    <material name="">
-      <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
-    </material>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <geometry>
-      <mesh filename="package://proj7/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
-    </geometry>
-  </collision>
-</link>
-<joint name="rl_joint" type="continuous">
-  <origin xyz="-0.275 0.09 0.0125" rpy="0 0 0" />
-  <parent link="base_link" />
-  <child link="wheel4" />
-  <axis xyz="0 1 0" />
-</joint>
-
-
-<!-- LIDAR Sensor -->
-<link name="lidar_link">
-  <inertial>
-    <mass value="0.05"/> <!-- Reduced mass -->
-    <inertia ixx="5e-7" ixy="0" ixz="0" iyy="5e-7" iyz="0" izz="5e-7"/> 
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/> 
-    <geometry>
-      <cylinder length="0.05" radius="0.025"/> <!-- Scaled dimensions -->
-    </geometry>
-    <material name="light_pink">
-      <color rgba="1.0 0.7529 0.7961 1.0"/> 
-    </material>
-    <gazebo reference="lidar_link">
-      <material>
-        <ambient>1 0.7529 0.7961 1</ambient> 
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rr_joint" type="continuous">
+    <origin xyz="-0.275 -0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel3"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  <link name="wheel4">
+    <inertial>
+      <origin xyz="-0.065 -0.072 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://proj7/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rl_joint" type="continuous">
+    <origin xyz="-0.275 0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel4"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+   <!-- LIDAR Sensor Link -->
+  <link name="lidar_link">
+    <inertial>
+      <mass value="0.05"/> 
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/> 
+      <geometry>
+        <cylinder length="0.05" radius="0.025"/> 
+      </geometry>
+      <material name="light_pink">
+        <color rgba="1.0 0.7529 0.7961 1.0"/> 
       </material>
-      <sensor name="laser" type="ray">
-      <pose> 0 0 0 0 0 0 </pose>
-      <visualize>true</visualize>
-      <update_rate>10</update_rate>
-      <ray> 
-        <scan>
-          <horizontal>
-            <samples>360</samples>
-            <min_angle>-3.14</min_angle>
-            <max_angle>3.14</max_angle>
-          </horizontal>
-        </scan>
-        <range>
-          <min>0.15</min>
-          <max>6</max>
-          </range>
+      <gazebo reference="lidar_link">
+        <material>
+          <ambient>1 0.7529 0.7961 1</ambient> 
+        </material>
+        <sensor name="laser" type="ray">
+        <pose> 0 0 0 0 0 0 </pose>
+        <visualize>true</visualize>
+        <update_rate>10</update_rate>
+        <ray> 
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <min_angle>-3.14</min_angle>
+              <max_angle>3.14</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.3</min>
+            <max>12</max>
+          </range>             
         </ray>
-      </sensor>
-    </gazebo>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <cylinder length="0.05" radius="0.025"/>
-    </geometry>
-  </collision>
-</link>
-<joint name="lidar_joint" type="fixed">
-  <parent link="base_link"/>
-  <child link="lidar_link"/>
-  <origin xyz="-0.115 0 0.12325" rpy="0 0 0"/>
-</joint>
+        <plugin name="laser_controller" filename="libgazebo_ros_laser.so">
+          <topicName>/scan</topicName>
+          <frameName>lidar_link</frameName>
+        </plugin>
+
+        </sensor>
+      </gazebo>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+    <!-- Joint to attach LIDAR to Base Link -->
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="-0.1 0 0.13" rpy="0 0 0"/>
+  </joint>
 
 
   

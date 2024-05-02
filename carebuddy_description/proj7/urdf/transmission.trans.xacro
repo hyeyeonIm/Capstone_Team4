@@ -18,32 +18,14 @@
 
 
 
-
-<xacro:macro name="arm_transmission" params="pre ">
-    <transmission name="${pre}_transmission">
-    <type>transmission_interface/SimpleTransmission</type>
-   <actuator name="${pre}_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-   </actuator>
-    <joint name="${pre}_joint">
-        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-    </transmission>
-</xacro:macro>
-
-
 <!--Link joint initialisation-->
 <xacro:Transmission_Block prefix="fl" suffix="frontLeft"/>
 <xacro:Transmission_Block prefix="fr" suffix="frontRight"/>
 <xacro:Transmission_Block prefix="rl" suffix="rightLeft"/>
 <xacro:Transmission_Block prefix="rr" suffix="rightRight"/>
 
-<!--Arm joints initialisation-->
-<xacro:arm_transmission pre="armbase" />
-<xacro:arm_transmission pre="link1" />
-<xacro:arm_transmission pre="link2" />
-<xacro:arm_transmission pre="end" />
+
+
 
 
 </robot>
