@@ -1,16 +1,16 @@
 <launch>
-<arg name="model" default="$(find proj7)/urdf/proj7.xacro"/>
-<arg name="rvizconfig" default="$(find proj7)/urdf.rviz"/>
+<arg name="model" default="$(find carebuddy_description)/urdf/carebuddy.xacro"/>
+<arg name="rvizconfig" default="$(find carebuddy_description)/urdf.rviz"/>
 
 <!-- Launch the gazebo -->
-<include file="$(find proj7)/launch/gazebo.launch">
+<include file="$(find carebuddy_description)/launch/gazebo.launch">
 	
 </include>
 
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
 
-<rosparam file="$(find proj7)/config/joint_states.yaml" command="load"/>
-<rosparam file="$(find proj7)/config/my_config.yaml" command="load"/>
+<rosparam file="$(find carebuddy_description)/config/joint_states.yaml" command="load"/>
+<rosparam file="$(find carebuddy_description)/config/my_config.yaml" command="load"/>
 
 <node name="robot_arm_controller_spawner" pkg="controller_manager" type="spawner"
 	respawn="true" output="screen"

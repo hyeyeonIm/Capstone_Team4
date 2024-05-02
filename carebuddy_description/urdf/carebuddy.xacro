@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<robot name="proj7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="carebuddy_description" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find proj7)/urdf/gazebo_refs_xArm.xacro" />
-<xacro:include filename="$(find proj7)/urdf/transmission_xArm.xacro" />
+<xacro:include filename="$(find carebuddy_description)/urdf/gazebo_refs_xArm.xacro" />
+<xacro:include filename="$(find carebuddy_description)/urdf/transmission_xArm.xacro" />
 <link name="base_link">
     <inertial>
       <origin xyz="0 0 0.035" rpy="0 0 0"/>
@@ -12,7 +12,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/base_link.STL" scale="0.5 0.5 0.5"/>
+        <mesh filename="package://carebuddy_description/meshes/base_link.STL" scale="0.5 0.5 0.5"/>
       </geometry>
       <material name="">
       <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -21,7 +21,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/base_link.STL" scale="0.5 0.5 0.5"/> 
+        <mesh filename="package://carebuddy_description/meshes/base_link.STL" scale="0.5 0.5 0.5"/> 
       </geometry>
     </collision>
   </link>
@@ -34,7 +34,7 @@
     <visual>
       <origin xyz="0.0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
+        <mesh filename="package://carebuddy_description/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
       </geometry>
       <material name="">
       <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
@@ -43,7 +43,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
+        <mesh filename="package://carebuddy_description/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
       </geometry>
     </collision>
   </link>
@@ -63,13 +63,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
+        <mesh filename="package://carebuddy_description/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
+        <mesh filename="package://carebuddy_description/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
       </geometry>
     </collision>
   </link>
@@ -89,7 +89,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
+        <mesh filename="package://carebuddy_description/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
       </geometry>
       <material name="">
       <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
@@ -98,7 +98,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
+        <mesh filename="package://carebuddy_description/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
       </geometry>
     </collision>
   </link>
@@ -117,13 +117,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
+        <mesh filename="package://carebuddy_description/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://proj7/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
+        <mesh filename="package://carebuddy_description/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
       </geometry>
     </collision>
   </link>
