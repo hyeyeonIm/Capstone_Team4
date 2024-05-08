@@ -1,15 +1,16 @@
 <launch>
-    <node name="keyboard_control_node" pkg="carebuddy_bringup" type="keyboard_control_node.py" output="screen"/>
+    <!-- <node name="keyboard_control_node" pkg="carebuddy_bringup" type="keyboard_control_node.py" output="screen"/>
 
-    <node name="robot_controller" pkg="carebuddy_bringup" type="robot_controller.py" output="screen"/>
+    <node name="robot_controller" pkg="carebuddy_bringup" type="robot_controller.py" output="screen"/> -->
     
     <node name="cmd_vel_subscriber" pkg="carebuddy_bringup" type="cmd_vel_subscriber.py" output="screen"/>
-    
+
+    <node name="keyboard_cmd_vel_control" pkg="carebuddy_bringup" type="keyboard_cmd_vel_control.py" output="screen"/>
     
     <!-- Amcl-->
-    <include file="$(find rc_bringup)/launch/localisation.launch"/>
+    <!-- <include file="$(find rc_bringup)/launch/localisation.launch"/> -->
 
     <!-- Odometry from lidar data-->
-    <include file="$(find rc_bringup)/launch/odom_laser.launch"/>
+    <!-- <include file="$(find rc_bringup)/launch/odom_laser.launch"/> -->
 
 </launch>

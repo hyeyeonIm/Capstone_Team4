@@ -1,39 +1,14 @@
 <launch>
-    <!-- Launch motor control node on Raspberry Pi -->
-    <node name="motor_control_node" pkg="my_robot_control" type="motor_control_node.py" machine="raspberrypi" output="screen">
-        <param name="PWMA" value="18"/>
-        <param name="AIN1" value="22"/>
-        <param name="AIN2" value="27"/>
-        <param name="PWMB" value="23"/>
-        <param name="BIN1" value="25"/>
-        <param name="BIN2" value="24"/>
-    </node>
-
-    <!-- Launch keyboard control node on local Ubuntu PC -->
-    <node name="keyboard_control_node" pkg="my_robot_control" type="keyboard_control_node.py" output="screen">
-        <!-- Additional parameters can be added here if needed -->
-    </node>
-
-    <!-- Machine tag for the Raspberry Pi -->
-    <machine name="raspberrypi" address="192.168.200.107" env-loader="/home/pi/catkin_ws/devel/env.sh"/>
+  <arg name="multi_robot_name" default=""/>
+  <arg name="set_lidar_frame_id" default="base_scan"/>
+  <arg name="set_joy_en" default="0"/>
 
 
+  <include file="$(find carebuddy_bringup)/launch/carebuddy_motor.launch">
+  </include>
 
-    <!-- Rplidar -->
-    <include file="$(find rc_bringup)/launch/rplidar.launch"/>
-
-    <!-- Tf -->
-    <include file="$(find rc_bringup)/launch/tf.launch"/>
-
-    <!-- Amcl (Localization) -->
-    <include file="$(find rc_bringup)/launch/localisation.launch"/>
-
-    <!-- Odometry from Lidar Data -->
-    <include file="$(find rc_bringup)/launch/odom_laser.launch"/>
-
-    <!-- Map Server -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
-
-    <!-- Uncomment below if you need to use move_base for navigation -->
-    <!-- <include file="$(find rc_bringup)/launch/move_base.launch"/> -->
+  <include file="$(find carebuddy_bringup)/launch/carebuddy_lidar.launch">
+    <arg name="set_frame_id" value="$(arg set_lidar_frame_id)"/>
+    <arg name="set_port" value="$(arg set_port_lidar)"/>
+  </include>
 </launch>

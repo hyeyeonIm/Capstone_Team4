@@ -1,0 +1,7 @@
+<launch>
+  
+  <include file="$(find carebuddy_bringup)/launch/carebuddy_remote.launch"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find carebuddy_description)/rviz/model.rviz"/>
+  
+
+</launch>

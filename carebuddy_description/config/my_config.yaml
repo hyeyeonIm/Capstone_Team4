@@ -6,8 +6,8 @@ Diff_Drive:
      left_wheel: ['fl_joint','rl_joint']
      right_wheel: ['fr_joint','rr_joint']
 
-     wheel_separation: 0.22
-     wheel_radius: 0.055
+     wheel_separation: 0.15
+     wheel_radius: 0.035
      # Odometry covariances for the encoder output of the robot. These values should
      # be tuned to your robot's sample odometry data, but these values are a good place
      # to start

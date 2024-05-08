@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="carebuddy_description" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+
+<link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+    <origin xyz="0 0.0 0.07" rpy="0 0 0"/>
+  </joint>
+  
+<link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0.035" rpy="0 0 0"/>
+      <mass value="0.8"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/base_link.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+      <material name="">
+      <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+    </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/base_link.STL" scale="0.5 0.5 0.5"/> 
+      </geometry>
+    </collision>
+  </link>
+<link name="wheel1">
+    <inertial>
+      <origin xyz="0.065 0.072 0" rpy="0 0 0"/> 
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
+      </geometry>
+      <material name="">
+      <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
+    </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel1.STL" scale="0.5 0.5 0.5"/> 
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fr_joint" type="continuous">
+    <origin xyz="-0.05 -0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel1"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  
+  <link name="wheel2">
+    <inertial>
+      <origin xyz="0.065 -0.072 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel2.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fl_joint" type="continuous">
+    <origin xyz="-0.05 0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel2"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  
+  <link name="wheel3">
+    <inertial>
+      <origin xyz="-0.065 0.072 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+      <material name="">
+      <color rgba="0.843137254901961 0.815686274509804 0.752941176470588 1" />
+    </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel3.STL" scale="0.5 0.5 0.5"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rr_joint" type="continuous">
+    <origin xyz="-0.275 -0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel3"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  <link name="wheel4">
+    <inertial>
+      <origin xyz="-0.065 -0.072 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://carebuddy_description/meshes/wheel4.STL" scale="0.5 0.5 0.5" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rl_joint" type="continuous">
+    <origin xyz="-0.275 0.09 0.0125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="wheel4"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+   <!-- LIDAR Sensor Link -->
+  <link name="lidar_link">
+    <inertial>
+      <mass value="0.05"/> 
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/> 
+      <geometry>
+        <cylinder length="0.05" radius="0.025"/> 
+      </geometry>
+      <material name="light_pink">
+        <color rgba="1.0 0.7529 0.7961 1.0"/> 
+      </material>
+      <gazebo reference="lidar_link">
+        <material>
+          <ambient>1 0.7529 0.7961 1</ambient> 
+        </material>
+        <sensor name="laser" type="ray">
+        <pose> 0 0 0 0 0 0 </pose>
+        <visualize>true</visualize>
+        <update_rate>10</update_rate>
+        <ray> 
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <min_angle>-3.14</min_angle>
+              <max_angle>3.14</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.3</min>
+            <max>12</max>
+          </range>             
+        </ray>
+        <plugin name="laser_controller" filename="libgazebo_ros_laser.so">
+          <topicName>/scan</topicName>
+          <frameName>lidar_link</frameName>
+        </plugin>
+
+        </sensor>
+      </gazebo>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+    <!-- Joint to attach LIDAR to Base Link -->
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="-0.1 0 0.13" rpy="0 0 0"/>
+  </joint>
+
+
+  
+</robot>
