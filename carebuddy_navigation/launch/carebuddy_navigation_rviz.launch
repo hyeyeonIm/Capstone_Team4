@@ -1,0 +1,4 @@
+<launch>
+  <!-- launching rviz node -->
+  <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find carebuddy_navigation)/rviz/carebuddy_navigation.rviz"/>
+</launch>

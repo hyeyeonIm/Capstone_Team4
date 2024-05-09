@@ -1,6 +1,12 @@
 <launch>
+
+
   <!-- launching state publishers -->
   <include file="$(find carebuddy_bringup)/launch/carebuddy_remote.launch"/>
+
+  
+
+
 
   <!-- launching gmapping node and parameters -->
   <include file="$(find carebuddy_slam)/launch/carebuddy_gmapping.launch"/>

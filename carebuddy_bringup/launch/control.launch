@@ -1,7 +1,0 @@
-<launch>
-    <!-- Launch motor control node on Raspberry Pi -->
-    <include file="$(find carebuddy_bringup)/launch/motor_control.launch"/>
-
-    <!-- <!-- Launch keyboard control node on local Ubuntu PC -->
-    <include file="$(find carebuddy_bringup)/launch/keyboard_control.launch"/> -->
-</launch>
