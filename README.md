@@ -24,6 +24,9 @@
 - RPLiDAR A1M8
 - DHT-11
 
+### Carebuddy_ros github
+https://github.com/hyeyeonIm/Carebuddy_ros.git
+
 ### 매핑 영상
 [![CareBuddy Mapping](https://img.youtube.com/vi/ebhQJ1M6wfo/0.jpg)](https://www.youtube.com/watch?v=ebhQJ1M6wfo)
 
