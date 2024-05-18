@@ -27,6 +27,9 @@
 ### Carebuddy_ros github
 https://github.com/hyeyeonIm/Carebuddy_ros.git
 
+### 자동 매핑 영상
+<iframe width="928" height="522" src="https://www.youtube.com/embed/p6YEz9cayZI" title="Automapping (Active Slam)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ### 매핑 영상
 [![CareBuddy Mapping](https://img.youtube.com/vi/ebhQJ1M6wfo/0.jpg)](https://www.youtube.com/watch?v=ebhQJ1M6wfo)
 
