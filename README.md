@@ -28,10 +28,8 @@
 https://github.com/hyeyeonIm/Carebuddy_ros.git
 
 ### 자동 매핑 영상
+[![Automapping and Navigation)](https://img.youtube.com/vi/A8NuGGdWVhk/0.jpg)](https://www.youtube.com/watch?v=A8NuGGdWVhk)
 [![Automapping (Active Slam)](https://img.youtube.com/vi/p6YEz9cayZI/0.jpg)](https://www.youtube.com/watch?v=p6YEz9cayZI)
-
-### 매핑 영상
-[![CareBuddy Mapping](https://img.youtube.com/vi/ebhQJ1M6wfo/0.jpg)](https://www.youtube.com/watch?v=ebhQJ1M6wfo)
 
 ### 실행 순서
 // 우분투
