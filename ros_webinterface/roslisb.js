@@ -24,23 +24,6 @@ $(document).ready(function() {
         });
 
 
-        // 로봇 위치 구독 추가
-     var robotPoseListener = new ROSLIB.Topic({
-        ros: ros,
-        name: '/pose',
-        messageType: 'geometry_msgs/Pose'
-    });
-
-    robotPoseListener.subscribe(function(message) {
-        var x = message.position.x * 50 + 400; // 스케일링 및 중심 위치 조정
-        var y = -message.position.y * 50 + 300; // 스케일링 및 중심 위치 조정
-        var quaternion = message.orientation;
-        var theta = Math.atan2(2.0 * (quaternion.w * quaternion.z + quaternion.x * quaternion.y),
-                               1.0 - 2.0 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z));
-        updateRobotPosition(x, y, theta);
-    });
-
-
     });
 
     ros.on('error', function(error) {
@@ -202,24 +185,75 @@ $(document).ready(function() {
     }
 
 
-    // 로봇 위치 업데이트 함수
-    function updateRobotPosition(x, y, theta) {
-        var canvas = document.getElementById("robotCanvas");
-        var context = canvas.getContext("2d");
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
+// 맵 구독
+var mapListener = new ROSLIB.Topic({
+    ros: ros,
+    name: '/map',
+    messageType: 'nav_msgs/OccupancyGrid'
+});
+
+mapListener.subscribe(function(message) {
+    console.log('Received map data:', message);
+    resolution = message.info.resolution;
+    mapOriginX = message.info.origin.position.x;
+    mapOriginY = message.info.origin.position.y;
+});
+
+
+
+
+
+        // tf 구독
+        var tfClient = new ROSLIB.TFClient({
+            ros: ros,
+            fixedFrame: 'map',
+            angularThres: 0.01,
+            transThres: 0.01,
+            rate: 10.0
+        });
 
         var robotIcon = new Image();
         robotIcon.src = "./icons/buddy_icon.png";
-        robotIcon.onload = function() {
+
+        // 로봇 위치 업데이트 함수
+        function updateRobotPosition(x, y, theta) {
+            console.log(`Updating robot position: x=${x}, y=${y}, theta=${theta}`); // 위치 업데이트 로그
+            var canvas = document.getElementById("robotCanvas");
+            var context = canvas.getContext("2d");
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
             context.save();
             context.translate(x, y);
             context.rotate(theta);
-            context.drawImage(robotIcon, -5, -5, 20, 20); 
+            context.drawImage(robotIcon, -robotIcon.width / 2, -robotIcon.height / 2, 20, 20);
             context.restore();
-        };
-    }
+        }
 
+ 
+        robotIcon.onload = function() {
+            tfClient.subscribe('base_footprint', function(tf) {
+                console.log('Received tf:', tf); // tf 수신 로그
+        
+                // 위치 변환 (미터 단위를 픽셀 단위로 변환)
+                var x = (tf.translation.x - mapOriginX) / resolution; // 스케일링 조정
+                var y = -(tf.translation.y - mapOriginY) / resolution; // 스케일링 조정
+        
+                // 중심 위치 조정 (맵 중심에 맞추기)
+                x += 800; // 적절한 중심 위치 조정 값
+                y += 600; // 적절한 중심 위치 조정 값
+                
+                // 회전 각도 변환 (라디안)
+                var siny_cosp = 2.0 * (tf.rotation.w * tf.rotation.z + tf.rotation.x * tf.rotation.y);
+                var cosy_cosp = 1.0 - 2.0 * (tf.rotation.y * tf.rotation.y + tf.rotation.z * tf.rotation.z);
+                var theta = Math.atan2(siny_cosp, cosy_cosp);
+        
+                // 로봇 위치 업데이트
+                updateRobotPosition(x, y, theta);
+            });
+        };
+        
 
 
 });
