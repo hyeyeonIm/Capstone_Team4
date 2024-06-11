@@ -22,8 +22,6 @@ $(document).ready(function() {
             console.log('Received message on ' + roomMarkerListener.name + ': ', message);
             displayMarker(message);
         });
-
-
     });
 
     ros.on('error', function(error) {
@@ -36,9 +34,8 @@ $(document).ready(function() {
         statusSpan.innerHTML = "Closed";
     });
 
-
     // 페이지 로드 시 매핑 상태 확인
-    if(localStorage.getItem("mappingFinished") === "true") {
+    if (localStorage.getItem("mappingFinished") === "true") {
         $(".Start_Map, .Stop_Map").hide();
         $(".Mapping_Again, .Segmenatation").show();
     } else {
@@ -58,13 +55,13 @@ $(document).ready(function() {
     });
 
     // 매핑 중지 및 저장 버튼 클릭 이벤트
-    $('.Stop_Map').click(async function() {   
+    $('.Stop_Map').click(async function() {
         var mapName = prompt("지도의 이름을 입력해주세요:", "defaultMapName");
         if (mapName) {
             try {
                 const saveResponse = await $.get(`http://localhost:8080/stop_and_save/${mapName}`);
                 alert(saveResponse); // 저장 완료 알림
-    
+
                 const loadResponse = await $.get(`http://localhost:8080/load_map/${mapName}`);
                 console.log(loadResponse); // 콘솔에 로딩 결과를 출력
                 alert(loadResponse); // 로딩 완료 알림
@@ -88,8 +85,16 @@ $(document).ready(function() {
         $(".Start_Map").show();
         $(".Stop_Map").show();
         $(this).hide(); // "다시 매핑하기" 버튼 숨기기
-        //$(".Segmentation").hide(); // "공간 나누기" 버튼 숨기기
+
+        // 서버로 요청 보내기
+        $.get('http://localhost:8080/mapping_again', function(response) {
+            alert('Mapping again process completed successfully.');
+        }).fail(function() {
+            alert('Error in mapping again process.');
+        });
     });
+
+
 
     fetchSavedRooms();
 
@@ -137,11 +142,7 @@ $(document).ready(function() {
         }
     });
 
-
-
-
-
-    // 지도 시각화 관련 코드는 그대로 유지
+    // 지도 시각화 관련 코드
     var viewer = new ROS2D.Viewer({
         divID: 'map',
         width: 800,
@@ -158,107 +159,119 @@ $(document).ready(function() {
     gridClient.on('change', function() {
         viewer.scaleToDimensions(gridClient.currentGrid.width, gridClient.currentGrid.height);
         viewer.shift(gridClient.currentGrid.pose.position.x, gridClient.currentGrid.pose.position.y);
+        console.log('Map loaded successfully.');
     });
 
     function displayMarker(marker) {
-        // 선택된 Room ID만 표시
         const markerRoomID = marker.text.replace('Room ', '').trim();
         console.log("Displaying marker for room: ", markerRoomID);
         console.log("Current selected rooms: ", window.selectedRooms);
 
-        if (window.selectedRooms && window.selectedRooms.includes(markerRoomID)) {
-            var shape = new createjs.Shape();
-            shape.graphics.beginFill("blue").drawCircle(0, 0, 0.1);
-            shape.x = marker.pose.position.x;
-            shape.y = -marker.pose.position.y;
 
-            viewer.scene.addChild(shape);
+        var shape = new createjs.Shape();
+        shape.graphics.beginFill("blue").drawCircle(0, 0, 0.1);
+        shape.x = marker.pose.position.x;
+        shape.y = -marker.pose.position.y;
 
-            var text = new createjs.Text(marker.text, "0.5px Arial", "#005F73");
-            text.x = marker.pose.position.x;
-            text.y = -marker.pose.position.y + 0.1;
+        viewer.scene.addChild(shape);
 
-            viewer.scene.addChild(text);
-        } else {
-            console.log(`Marker for Room ${markerRoomID} not displayed.`);
-        }
+        var text = new createjs.Text(marker.text, "0.5px Arial", "#005F73");
+        text.x = marker.pose.position.x;
+        text.y = -marker.pose.position.y + 0.1;
+
+        viewer.scene.addChild(text);
+
+        // if (window.selectedRooms && window.selectedRooms.includes(markerRoomID)) {
+        //     var shape = new createjs.Shape();
+        //     shape.graphics.beginFill("blue").drawCircle(0, 0, 0.1);
+        //     shape.x = marker.pose.position.x;
+        //     shape.y = -marker.pose.position.y;
+
+        //     viewer.scene.addChild(shape);
+
+        //     var text = new createjs.Text(marker.text, "0.5px Arial", "#005F73");
+        //     text.x = marker.pose.position.x;
+        //     text.y = -marker.pose.position.y + 0.1;
+
+        //     viewer.scene.addChild(text);
+        // } else {
+        //     console.log(`Marker for Room ${markerRoomID} not displayed.`);
+        // }
     }
 
+    // 로봇 마커 생성 및 초기 설정
+    var robotMarker = new createjs.Shape();
+    robotMarker.graphics.beginFill("green").drawCircle(0, 0, 0.3); // 로봇을 나타내는 파란색 원
+    robotMarker.regX = 0;
+    robotMarker.regY = 0;
+
+    // 로봇 마커 생성 및 초기 설정
+    // var robotMarker = new createjs.Bitmap("./icons/buddy_icon.png");
+    // robotMarker.regX = 0;
+    // robotMarker.regY = 0;
+    // robotMarker.scaleX = 0.002;
+    // robotMarker.scaleY = 0.002;
+
+    // 로봇 마커를 뷰어에 추가
+    gridClient.rootObject.addChild(robotMarker);
+
+    // odom 토픽 구독
+    var odomListener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/odom',
+        messageType: 'nav_msgs/Odometry'
+    });
 
 
-// 맵 구독
-var mapListener = new ROSLIB.Topic({
-    ros: ros,
-    name: '/map',
-    messageType: 'nav_msgs/OccupancyGrid'
-});
-
-mapListener.subscribe(function(message) {
-    console.log('Received map data:', message);
-    resolution = message.info.resolution;
-    mapOriginX = message.info.origin.position.x;
-    mapOriginY = message.info.origin.position.y;
-});
-
-
-
-
-
-        // tf 구독
-        var tfClient = new ROSLIB.TFClient({
-            ros: ros,
-            fixedFrame: 'map',
-            angularThres: 0.01,
-            transThres: 0.01,
-            rate: 10.0
-        });
-
-        var robotIcon = new Image();
-        robotIcon.src = "./icons/buddy_icon.png";
-
-        // 로봇 위치 업데이트 함수
-        function updateRobotPosition(x, y, theta) {
-            console.log(`Updating robot position: x=${x}, y=${y}, theta=${theta}`); // 위치 업데이트 로그
-            var canvas = document.getElementById("robotCanvas");
-            var context = canvas.getContext("2d");
-
-            context.clearRect(0, 0, canvas.width, canvas.height);
-
-            context.save();
-            context.translate(x, y);
-            context.rotate(theta);
-            context.drawImage(robotIcon, -robotIcon.width / 2, -robotIcon.height / 2, 20, 20);
-            context.restore();
-        }
-
- 
-        robotIcon.onload = function() {
-            tfClient.subscribe('base_footprint', function(tf) {
-                console.log('Received tf:', tf); // tf 수신 로그
-        
-                // 위치 변환 (미터 단위를 픽셀 단위로 변환)
-                var x = (tf.translation.x - mapOriginX) / resolution; // 스케일링 조정
-                var y = -(tf.translation.y - mapOriginY) / resolution; // 스케일링 조정
-        
-                // 중심 위치 조정 (맵 중심에 맞추기)
-                x += 800; // 적절한 중심 위치 조정 값
-                y += 600; // 적절한 중심 위치 조정 값
-                
-                // 회전 각도 변환 (라디안)
-                var siny_cosp = 2.0 * (tf.rotation.w * tf.rotation.z + tf.rotation.x * tf.rotation.y);
-                var cosy_cosp = 1.0 - 2.0 * (tf.rotation.y * tf.rotation.y + tf.rotation.z * tf.rotation.z);
-                var theta = Math.atan2(siny_cosp, cosy_cosp);
-        
-                // 로봇 위치 업데이트
-                updateRobotPosition(x, y, theta);
-            });
-        };
-        
-
-
-});
-
+    odomListener.subscribe(function(message) {
+        console.log('Received odometry data:', message);
     
+        var pose = message.pose.pose;
+    
+        // 로봇의 위치 및 방향 설정
+        var x = pose.position.x;
+        var y = pose.position.y;
+    
+        if (gridClient.currentGrid && gridClient.currentGrid.pose && gridClient.currentGrid.info) {
+            // 좌표 변환을 통한 로봇 마커 위치 조정
+            var transformedX = (x - gridClient.currentGrid.pose.position.x) / gridClient.currentGrid.info.resolution;
+            var transformedY = -(y - gridClient.currentGrid.pose.position.y) / gridClient.currentGrid.info.resolution;
+    
+            // 로봇 마커 위치 업데이트
+            robotMarker.x = transformedX * viewer.scene.scaleX + viewer.scene.x;
+            robotMarker.y = transformedY * viewer.scene.scaleY + viewer.scene.y;
+    
+            var q0 = pose.orientation.w;
+            var q1 = pose.orientation.x;
+            var q2 = pose.orientation.y;
+            var q3 = pose.orientation.z;
+            var theta = Math.atan2(2.0 * (q0 * q3 + q1 * q2), 1.0 - 2.0 * (q2 * q2 + q3 * q3));
+            robotMarker.rotation = theta * (180 / Math.PI);
+    
+            console.log(`Updated robot position: x=${robotMarker.x}, y=${robotMarker.y}, rotation=${robotMarker.rotation}`);
+        } else {
+            console.warn('Grid data not available yet. Using raw odometry data.');
+            // 현재 맵 데이터가 없으므로 raw odometry data를 사용하여 로봇 마커 위치 업데이트
+            robotMarker.x = x;
+            robotMarker.y = -y;
+    
+            var q0 = pose.orientation.w;
+            var q1 = pose.orientation.x;
+            var q2 = pose.orientation.y;
+            var q3 = pose.orientation.z;
+            var theta = Math.atan2(2.0 * (q0 * q3 + q1 * q2), 1.0 - 2.0 * (q2 * q2 + q3 * q3));
+            robotMarker.rotation = theta * (180 / Math.PI);
+        }
+    
+        // 로봇 마커를 뷰어에 추가
+        if (!viewer.scene.contains(robotMarker)) {
+            viewer.scene.addChild(robotMarker);
+        }
+    });
+
+
+});
+
 
 
     // // Example of subscribing to a topic
@@ -272,5 +285,3 @@ mapListener.subscribe(function(message) {
     //     console.log('Received move_base feedback: ', message);
     //     // Handle or visualize the feedback
     // });
-
-    // Additional functionalities as needed

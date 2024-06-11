@@ -30,26 +30,6 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-<style>
-    #robotCanvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        width: 800px;
-        height: 600px;
-    }
-    #map-container {
-        position: relative;
-        width: 800px;
-        height: 600px;
-    }
-    #map {
-        width: 100%;
-        height: 100%;
-    }
-</style>
-
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -124,7 +104,6 @@
         <div class="large-box">
             <span id="msg"></span>
             <div id="map-container">
-                <canvas id="robotCanvas"></canvas>
                 <div id="map"></div>
             </div>
             <button class="Start_Map">매핑 시작</button>
@@ -525,28 +504,6 @@ window.currentRoomId = roomId;
             });
     }
 
-
-// 로봇 이미지와 캔버스를 설정하는 부분
-document.addEventListener('DOMContentLoaded', function() {
-    const robotCanvas = document.getElementById('robotCanvas');
-    const ctx = robotCanvas.getContext('2d');
-    robotCanvas.width = 800;
-    robotCanvas.height = 600;
-
-    const robotImg = new Image();
-    robotImg.src = "icons/buddy_icon.png";
-
-    function updateRobotPosition(x, y, theta) {
-        ctx.clearRect(0, 0, robotCanvas.width, robotCanvas.height);
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(theta);
-        ctx.drawImage(robotImg, -robotImg.width / 2, -robotImg.height / 2);
-        ctx.restore();
-    }
-
-    window.updateRobotPosition = updateRobotPosition; // 함수 노출
-});
 
 </script>
 

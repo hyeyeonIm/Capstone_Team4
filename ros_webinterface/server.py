@@ -38,6 +38,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         elif len(path_components) > 1 and path_components[1] == "Move":
             roomId = unquote(path_components[2])
             self.move_to_room(roomId)
+        elif parsed_path.path == "/mapping_again":
+            self.mapping_again()
         elif self.path == '/latest-data':
             self.serve_latest_data()
         elif self.path == '/dust_data.html':
@@ -135,11 +137,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         try:
             # Start SLAM launch
             slam_process = subprocess.Popen(['roslaunch', 'omo_r1mini_slam', 'omo_r1mini_slam.launch'])
-            time.sleep(5)  # Wait for 5 seconds before starting the next process
+            time.sleep(2)  # Wait for 5 seconds before starting the next process
 
             # Start Explore launch
             explore_process = subprocess.Popen(['roslaunch', 'explore_lite', 'explore.launch'])
-            time.sleep(5)  # Wait for 5 seconds before starting the next process
+            time.sleep(2)  # Wait for 5 seconds before starting the next process
 
             # Start Navigation launch
             navigation_process = subprocess.Popen(['roslaunch', 'omo_r1mini_navigation', 'omo_r1mini_navigation.launch'])
@@ -161,6 +163,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             # slam 종료
             subprocess.call(['rosnode', 'kill', '/omo_r1mini_slam_gmapping'])
+            subprocess.call(['rosnode', 'kill', '/joint_state_publisher'])
+            subprocess.call(['rosnode', 'kill', '/robot_state_publisher'])
+            subprocess.call(['rosnode', 'kill', '/explore'])
+
             # 지도가 저장되었으므로 slam 관련 모든 명령어 종료
             # subprocess.call(['pkill', '-f', 'omo_r1mini_slam_launch'])
             response += "\nslam is over"
@@ -175,13 +181,40 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(response, "utf8"))
 
+
+    def mapping_again(self):
+        try:
+            # ROS 노드 종료
+            nodes = ['/amcl', '/move_base', '/joint_state_publisher', '/robot_state_publisher']
+            for node in nodes:
+                subprocess.run(['rosnode', 'kill', node], check=True)
+            response = "Mapping again process completed successfully."
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(response.encode())
+        except subprocess.CalledProcessError as e:
+            response = f"Error in mapping again process: {e}"
+            self.send_response(500)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(response.encode())
+        except Exception as e:
+            response = f"Unhandled exception in mapping again process: {e}"
+            self.send_response(500)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(response.encode())
+
+
+
     def load_map(self, map_name):
         map_path = f"/home/haley/catkin_ws/saveMap/{map_name}"
         try:
             print(f"Loading map: {map_path}")
             # 지도 불러오는 ros 명령어
             subprocess.Popen(['rosrun', 'map_server', 'map_server', f'{map_path}.yaml'])
-            response = "Map loaded successfully."
+            response = "지도를 불러왔습니다."
         except Exception as e:
             response = f"Error loading map: {e}"
         self.send_response(200)
@@ -202,15 +235,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         map_path = f"/home/haley/catkin_ws/saveMap/{map_name}"
         try:
-            # subprocess.Popen(['roslaunch', 'ipa_room_segmentation', 'room_segmentation_action_server.launch'])
-            # subprocess.Popen(['rosrun', 'ipa_room_segmentation', 'room_segmentation_client.py', f'{map_path}.pgm', '0.05'])
+            #subprocess.Popen(['roslaunch', 'ipa_room_segmentation', 'room_segmentation_action_server.launch'])
+            #subprocess.Popen(['rosrun', 'ipa_room_segmentation', 'room_segmentation_client.py', f'{map_path}.pgm', '0.05'])
             proc1 = subprocess.Popen(['rosrun', 'omo_control', 'my_markers.py'], preexec_fn=os.setsid)
             proc2 = subprocess.Popen(['roslaunch', 'omo_r1mini_navigation', 'omo_r1mini_navigation.launch',
                                       'map_file:=' + f'{map_path}.yaml'], preexec_fn=os.setsid)
 
             running_processes.extend([proc1, proc2])
 
-            response = "All segmentation and visualization commands executed."
+            response = "공간 분할을 완료하였습니다!"
         except Exception as e:
             response = f"Error during command execution: {e}"
         self.send_response(200)
