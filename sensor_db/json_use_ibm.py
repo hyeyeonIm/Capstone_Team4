@@ -1,3 +1,4 @@
+# 최근 room의 공기질 데이터를 모델로 보내 결과 값을 받아오는 코드
 import json
 import requests
 
