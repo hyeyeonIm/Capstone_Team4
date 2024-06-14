@@ -1,3 +1,4 @@
+# This code receives and outputs data from three sensors(DHT11,mh-z19,PMS7003)
 # DHT11
 import time
 import board
