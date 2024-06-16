@@ -20,7 +20,8 @@ def callback(message):
     except Exception as e:
         print(f"Error: {e}")
 
-
+# '/matt' is topic name from talker
+# You can change the topic name to fit your code.
 listener = roslibpy.Topic(client, '/matt', 'std_msgs/String')
 listener.subscribe(callback)
 
