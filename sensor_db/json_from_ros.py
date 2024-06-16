@@ -1,3 +1,4 @@
+# This code sends json data to Node.js from Ubuntu ROS.
 from __future__ import print_function
 import roslibpy
 import requests
