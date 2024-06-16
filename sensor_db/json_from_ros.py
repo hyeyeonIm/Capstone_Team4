@@ -7,7 +7,7 @@ import json
 client = roslibpy.Ros(host='localhost', port=9090)
 client.run()
 
-
+# send json data to Node,js
 def callback(message):
     json_str = message['data']
     print('Heard talking: ' + json_str)
