@@ -47,6 +47,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.serve_latest_data()
         elif self.path == '/dust_data.html':
             self.serve_file('dust_data.html')
+        elif self.path == '/air_data':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            data = self.get_data_from_db()
+            self.wfile.write(json.dumps(data, default=str).encode())
         else:
             super().do_GET()
 
