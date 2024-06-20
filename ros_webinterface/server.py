@@ -1,6 +1,7 @@
 import http.server
 import socketserver
 import subprocess
+import pymysql
 from urllib.parse import urlparse, unquote, parse_qs
 import os
 import signal
