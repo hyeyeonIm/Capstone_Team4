@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization with D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .chart {
+            font: 10px sans-serif;
+        }
+
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        .axis-label {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dust PM10.0 Levels</h1>
+    <div id="dustChart"></div>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('/air_data');
+            const data = await response.json();
+            return data;
+        }
+
+        function createLineChart(data, chartId, label) {
+            const margin = {top: 20, right: 30, bottom: 40, left: 40},
+                  width = 800 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
+
+            const svg = d3.select(chartId)
+                          .append("svg")
+                          .attr("width", width + margin.left + margin.right)
+                          .attr("height", height + margin.top + margin.bottom)
+                          .append("g")
+                          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleTime()
+                        .domain(d3.extent(data, d => d.date))
+                        .range([0, width]);
+
+            const y = d3.scaleLinear()
+                        .domain([0, d3.max(data, d => d.value)])
+                        .nice()
+                        .range([height, 0]);
+
+            const line = d3.line()
+                           .x(d => x(d.date))
+                           .y(d => y(d.value));
+
+            svg.append("g")
+               .attr("class", "x axis")
+               .attr("transform", `translate(0,${height})`)
+               .call(d3.axisBottom(x));
+
+            svg.append("g")
+               .attr("class", "y axis")
+               .call(d3.axisLeft(y));
+
+            svg.append("path")
+               .datum(data)
+               .attr("class", "line")
+               .attr("d", line);
+
+            svg.append("text")
+               .attr("class", "axis-label")
+               .attr("transform", `translate(${width / 2},${height + margin.bottom})`)
+               .style("text-anchor", "middle")
+               .text("Date");
+
+            svg.append("text")
+               .attr("class", "axis-label")
+               .attr("transform", "rotate(-90)")
+               .attr("y", 0 - margin.left)
+               .attr("x", 0 - (height / 2))
+               .attr("dy", "1em")
+               .style("text-anchor", "middle")
+               .text(label);
+        }
+
+        fetchData().then(data => {
+            const processedData = data.map(row => ({
+                date: new Date(row[0]),
+                value: row[4]  // Assuming dust_pm10_0_atm is the 4th column
+            }));
+
+            createLineChart(processedData, "#dustChart", "Dust PM10.0 Levels");
+        });
+    </script>
+</body>
+</html>
