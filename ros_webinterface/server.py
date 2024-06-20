@@ -401,6 +401,27 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes(f"Error moving to room: {e}", "utf8"))
 
+    def get_data_from_db(self):
+        connection = pymysql.connect(
+            # Change to your mysql setting
+            host='localhost',
+            user='sensor',
+            password='987654321',
+            database='sensor_data'
+        )
+        cursor = connection.cursor()
+        cursor.execute("SELECT date, temperature, humidity, dust_pm2_5_atm, dust_pm10_0_atm, co2 FROM sensors")
+        data = cursor.fetchall()
+        connection.close()
+        
+        # Convert datetime objects to strings
+        formatted_data = []
+        for row in data:
+            formatted_row = [row[0].strftime('%Y-%m-%d %H:%M:%S')] + list(row[1:])
+            formatted_data.append(formatted_row)
+        
+        return formatted_data
+
     # def serve_room_coordinates(self):
     #     try:
     #         with open(os.path.join(BASE_DIR, 'room_coordinates.txt'), 'r') as file:
