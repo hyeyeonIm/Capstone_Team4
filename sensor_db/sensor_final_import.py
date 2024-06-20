@@ -1,5 +1,7 @@
 # This code receives and outputs data from three sensors(DHT11,mh-z19,PMS7003)
 # This code do not include the code for PMS7003, you should import PMS7003.py
+# You can download PMS7003.py at here
+# https://github.com/eleparts/PMS7003/blob/master/PMS7003.py
 # DHT11
 import time
 import board
